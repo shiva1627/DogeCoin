@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "217641497063",
+    "firebase_url": "https://dogecoin-7f2e3.firebaseio.com",
+    "project_id": "dogecoin-7f2e3",
+    "storage_bucket": "dogecoin-7f2e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217641497063:android:88578290f3751c27",
+        "android_client_info": {
+          "package_name": "org.sssj.com.dogecoin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217641497063-et7ecrbue1afjr279bgehmll89p890pk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.sssj.com.dogecoin",
+            "certificate_hash": "be4ef839dc6247e99399db3ee375b45d5f9a432c"
+          }
+        },
+        {
+          "client_id": "217641497063-6s2occ9vuilufatlbiu2onm6tqsrthet.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyfr-Mt3hfuBsYTZ7fJN3ixKpnRzkn6_8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217641497063-6s2occ9vuilufatlbiu2onm6tqsrthet.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

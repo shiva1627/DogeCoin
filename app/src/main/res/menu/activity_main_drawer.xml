@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_aacount"
+        android:icon="@drawable/nav_account"
+         android:title="Account" />
+
+    <item
+        android:id="@+id/nav_withdraw"
+        android:icon="@drawable/nav_withdraw"
+        android:title="Withdraw" />
+
+    <item
+        android:id="@+id/nav_donate"
+        android:icon="@drawable/nav_donate"
+        android:title="Donate" />
+    <item
+        android:id="@+id/nav_help"
+        android:icon="@drawable/nav_help"
+        android:title="Help" />
+    <item
+        android:id="@+id/nav_contactus"
+        android:icon="@drawable/nav_contactus"
+        android:title="Contact us" />
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/nav_logout"
+        android:title="Logout" />
+
+
+</menu>

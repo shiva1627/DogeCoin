@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">SSDoge</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="howtouse">>>How to use</string>
+    <string name="howtouse1">- Open app by clicking on icon\n
+                            - Click on Google sign in to login\n
+                            - On next page click on Claim Button\n
+                              - that\'s it, repeat the procedure every 5 minutes\n</string>
+    <string name="helpClaim">>>Claim</string>
+    <string name="helpClaim1">- Claim rates are dependent on doge coin rates\n
+                                            and according to market conditions.\n
+- Current claim rate will be displayed on click page.\n
+- Claim amount is decided on various conditions according to market;\n but the timer will be fixed i.e. 5 minutes.\n
+    </string>
+
+
+    <string name="helpWithdrawal">>>Withdrawal </string>
+    <string name="helpWithdrawal1">- Minimum withdraw\n
+You can request withdrawal once your balance reaches 15 Doge.\n
+Note:- minimum withdrawal limit is subject to change any time based\n on various conditions.\n
+- Maximum withdraw\n
+Maximum or upper limit of withdraw in one request is 25 Doge.\n
+Note:- maximum withdrawal limit is subject to change any time based\n on various conditions.\n
+</string>
+    <string name="helpFees">>>Fees </string>
+    <string name="helpFees1">- Fee\'s structures also depends on market conditions.\n
+
+- Current fees rate will be displayed on Withdraw Page.\n
+
+- These fees are considered as network or miners fees to\n complete transactions.\n
+
+- The more the fees more will be transaction confirmation speed.\n
+
+</string>
+    <string name="helppayoutday">>>Payout Day</string>
+    <string name="helppayoutday1">
+
+- Currently it is set to 7th day. i.e Every Sunday all\n pending payouts will be paid.\n
+
+Note:- Subject to change any time.</string>
+    <string name="lastclaim">Last Claim :-</string>
+
+
+</resources>
+
+
+    <!--
+
+
+    use a blackslash not a forwardslash. "\n"
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <string name="title">Hello\nWorld!</string>
+    </resources>
+
+    Also, if you plan on using the string as HTML, you can use &lt;br /&gt; for a line break(<br />)
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <string name="title">Hello&lt;br /&gt;World!</string>
+    </resources>
+
+
+
+    -->
