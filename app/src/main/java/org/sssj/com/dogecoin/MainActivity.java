@@ -31,6 +31,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -45,6 +46,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import io.fabric.sdk.android.Fabric;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
 
         setContentView(R.layout.activity_main);
 
@@ -160,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 if (is_Internet()) {
                     signIn();
                 } else {
-                    Toast.makeText(MainActivity.this, "Please Check Internet Connection...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please Check Internet Connection !!!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
