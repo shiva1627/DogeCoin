@@ -32,7 +32,7 @@ public class User_account extends AppCompatActivity {
     ImageView imgUser;
     TextView nameUser, mailUser, txtMainBal, txtCurrBal, txtDogeAddr;
     String personPhotoUrl;
-    String MainBal = "https://sscoinmedia.000webhostapp.com/WebService/uclaimTimer.php";
+    String MainBal = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer.php";
     private AdView mAdView;
     RequestQueue requestQueue;
 

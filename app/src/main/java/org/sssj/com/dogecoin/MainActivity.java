@@ -71,9 +71,8 @@ public class MainActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     ProgressDialog progressBar;
     Dialog rateusDialog;
-    //  String URL_DATA = "https://sscoinmedia.000webhostapp.com/WebService/getEmp.php";
-    String URLADD = "https://sscoinmedia.000webhostapp.com/WebService/uAdd.php";
-    String Change_Dev_ID = "https://sscoinmedia.000webhostapp.com/WebService/uUpdateuserdevid.php";
+    String URLADD = "http://sscoinmedia.tech/DogeWebService/dogeUserAdd.php";
+    String Change_Dev_ID = "http://sscoinmedia.tech/DogeWebService/dogeUpdateDeviceId.php";
 
 
     String usergmail, username, deviceId, lastBalance;

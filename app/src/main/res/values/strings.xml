@@ -45,6 +45,8 @@ Note:- maximum withdrawal limit is subject to change any time based\n on various
 Note:- Subject to change any time.</string>
     <string name="lastclaim">Last Claim :-</string>
 
+    <string name="facebook_app_id">478049842661403</string>
+    <string name="fb_login_protocol_scheme">fb478049842661403</string>
 
 </resources>
 

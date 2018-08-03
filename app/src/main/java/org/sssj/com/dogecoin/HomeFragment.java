@@ -23,12 +23,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.facebook.ads.AdSettings;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
 import com.facebook.ads.InterstitialAd;
 import com.facebook.ads.NativeAd;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -41,8 +39,8 @@ import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
-    String Claim_url = "https://sscoinmedia.000webhostapp.com/WebService/ubalUpdate.php";
-    String Claim_timer_url = "https://sscoinmedia.000webhostapp.com/WebService/uclaimTimer.php";
+    String Claim_url = "http://sscoinmedia.tech/DogeWebService/dogeBalanceUpdate.php";
+    String Claim_timer_url = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer.php";
 
 
     CountDownTimer countdt;
@@ -51,7 +49,6 @@ public class HomeFragment extends Fragment {
     Button btnclaim;
   //  private InterstitialAd mInterstitialAd;
 
-    private AdView mAdView;
     private InterstitialAd interstitialAd;
     private AdView adView;
 

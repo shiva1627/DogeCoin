@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.facebook.ads.AdSize;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -31,13 +33,14 @@ import java.util.Map;
 import dmax.dialog.SpotsDialog;
 
 public class WithdrawActivity extends AppCompatActivity {
-    private static Double minBalance = 5.0;
+    private static Double minBalance = 15.0;
+    private static Double maxBalance = 25.0;
     private static Double WDFees = 1.0;
 
-    String Curr_Bal_URL = "https://sscoinmedia.000webhostapp.com/WebService/uclaimTimer.php";
-    String Withdraw_URL = "https://sscoinmedia.000webhostapp.com/WebService/uAddrequest.php";
+    String Curr_Bal_URL = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer.php";
+    String Withdraw_URL = "http://sscoinmedia.tech/DogeWebService/dogeAddrequest.php";
 
-    private AdView mAdView;
+    private com.facebook.ads.AdView adView;
     RequestQueue requestQueue;
     FirebaseAuth mAuth;
 
@@ -60,6 +63,19 @@ public class WithdrawActivity extends AppCompatActivity {
         edEstiAmt = (EditText) findViewById(R.id.edwithEstimatedAmt);
         edDogeAddr = (EditText) findViewById(R.id.edwithDogeAddress);
 
+
+        // Instantiate an AdView view
+        adView = new com.facebook.ads.AdView(getApplicationContext(), "478049842661403_478110199322034", AdSize.BANNER_HEIGHT_50);
+
+        // Find the Ad Container
+        LinearLayout adContainer = (LinearLayout) findViewById(R.id.banner_container);
+
+        // Add the ad view to your activity layout
+        adContainer.addView(adView);
+
+        // Request an ad
+        adView.loadAd();
+
       /*  progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");*/
         progressDialog = new SpotsDialog(this, R.style.Custom);
@@ -71,17 +87,29 @@ public class WithdrawActivity extends AppCompatActivity {
                     // code to execute when EditText loses focus
                     try {
                         Double edamt = Double.parseDouble(edAmount.getText().toString());
-                        if (edamt < currentBal && edamt >= minBalance) {
+                        if (edamt < currentBal && edamt >= minBalance && edamt <= maxBalance) {
                             WDAmt = Double.parseDouble(edAmount.getText().toString());
                             WDEstiAmt = WDAmt - WDFees;
                             edEstiAmt.setText(String.valueOf(WDEstiAmt));
                         } else {
                             edAmount.setText("");
                             edEstiAmt.setText("");
-                            Toast toast = Toast.makeText(WithdrawActivity.this, "You haven't enough balance to request...", Toast.LENGTH_LONG);
-                            // Here we can set the Gravity to Top and Right
-                            toast.setGravity(Gravity.CENTER, 0, -200);
-                            toast.show();
+                            if (edamt > maxBalance) {
+                                Toast toast = Toast.makeText(WithdrawActivity.this, "You can request max 25 Doge per request...", Toast.LENGTH_LONG);
+                                // Here we can set the Gravity to Top and Right
+                                toast.setGravity(Gravity.CENTER, 0, -200);
+                                toast.show();
+                            }else if (edamt < minBalance) {
+                                Toast toast = Toast.makeText(WithdrawActivity.this, "You can request min 15 Doge per request...", Toast.LENGTH_LONG);
+                                // Here we can set the Gravity to Top and Right
+                                toast.setGravity(Gravity.CENTER, 0, -200);
+                                toast.show();
+                            } else {
+                                Toast toast = Toast.makeText(WithdrawActivity.this, "You haven't enough balance to request...", Toast.LENGTH_LONG);
+                                // Here we can set the Gravity to Top and Right
+                                toast.setGravity(Gravity.CENTER, 0, -200);
+                                toast.show();
+                            }
                         }
                     } catch (NumberFormatException e) {
                         edAmount.setText("");
@@ -106,7 +134,7 @@ public class WithdrawActivity extends AppCompatActivity {
                     //Toast.makeText(WithdrawActivity.this, "You can get " + WDEstiAmt + " Doge", Toast.LENGTH_SHORT).show();
                 } else {
                     progressDialog.dismiss();
-                    Toast.makeText(WithdrawActivity.this, "Please Filled All Fiels", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WithdrawActivity.this, "Please Filled All Fields", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -116,12 +144,7 @@ public class WithdrawActivity extends AppCompatActivity {
 
         requestQueue = MySingleton.getInstance(this).getRequestQueue();
 
-        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
 
-        mAdView.loadAd(adRequest);
     }
 
     @Override
