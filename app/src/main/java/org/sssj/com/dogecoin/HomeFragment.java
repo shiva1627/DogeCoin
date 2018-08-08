@@ -98,8 +98,7 @@ public class HomeFragment extends Fragment {
 
 
         // Instantiate an AdView view
-        adView = new AdView(getActivity(), "478049842661403_478110199322034", AdSize.BANNER_HEIGHT_50);
-
+        adView = new AdView(getActivity(), " 239164800060456_239842343326035", AdSize.BANNER_HEIGHT_50);
         // Find the Ad Container
         LinearLayout adContainer = (LinearLayout) view.findViewById(R.id.banner_container);
 
@@ -112,7 +111,7 @@ public class HomeFragment extends Fragment {
 
 
         // Instantiate an InterstitialAd object
-        interstitialAd = new InterstitialAd(getActivity(), "478049842661403_478107379322316");
+        interstitialAd = new InterstitialAd(getActivity(), "239164800060456_239844109992525");
 
         // load the ad
         interstitialAd.loadAd();
@@ -185,7 +184,7 @@ public class HomeFragment extends Fragment {
                 btnclaim.setEnabled(true);
                 spinner2.setVisibility(View.GONE);
                 Log.i(TAG, "Error " + error);
-                Toast.makeText(getActivity(), "Error " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "try again... ", Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -279,7 +278,6 @@ public class HomeFragment extends Fragment {
 
                 } catch (JSONException e) {
                     spinner2.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Error " + e, Toast.LENGTH_SHORT).show();
                     Log.i("Claim_Timer", " Err " + e);
 
                 }
@@ -291,7 +289,6 @@ public class HomeFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 spinner2.setVisibility(View.GONE);
                 Log.i(TAG, "Error " + error);
-                Toast.makeText(getActivity(), "Error " + error, Toast.LENGTH_SHORT).show();
 
             }
         }) {

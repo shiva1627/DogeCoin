@@ -64,7 +64,6 @@ public class NewsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-       // Toast.makeText(getActivity(),"OnResumee",Toast.LENGTH_LONG).show();
     }
 
     private void Show_News() {
@@ -73,7 +72,6 @@ public class NewsFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Toast.makeText(getContext(), "From Server", Toast.LENGTH_SHORT).show();
                         // for 1st array url
                         try {
 
@@ -111,7 +109,6 @@ public class NewsFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-              //  Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -119,7 +116,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void loadNativeAd() {
-        nativeAd = new NativeAd(getActivity(), "478049842661403_478103755989345");
+        nativeAd = new NativeAd(getActivity(), "239164800060456_239166033393666");
 
         nativeAd.setAdListener(new AdListener() {
 

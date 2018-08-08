@@ -65,7 +65,7 @@ public class WithdrawActivity extends AppCompatActivity {
 
 
         // Instantiate an AdView view
-        adView = new com.facebook.ads.AdView(getApplicationContext(), "478049842661403_478110199322034", AdSize.BANNER_HEIGHT_50);
+        adView = new com.facebook.ads.AdView(getApplicationContext(), " 239164800060456_239842343326035", AdSize.BANNER_HEIGHT_50);
 
         // Find the Ad Container
         LinearLayout adContainer = (LinearLayout) findViewById(R.id.banner_container);
@@ -182,8 +182,9 @@ public class WithdrawActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
                 Log.i("WithdrawActivity", "Error " + error);
-                Toast.makeText(getApplicationContext(), "Error " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Try again... ", Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -222,7 +223,7 @@ public class WithdrawActivity extends AppCompatActivity {
 
 
                 } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error " + e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Try again... ", Toast.LENGTH_SHORT).show();
                     Log.i("Claim_Timer", " Err " + e);
 
                 }
@@ -232,8 +233,9 @@ public class WithdrawActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
                 Log.i("WithdrawActivity", "Error " + error);
-                Toast.makeText(getApplicationContext(), "Error " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Try again... " , Toast.LENGTH_SHORT).show();
 
             }
         }) {

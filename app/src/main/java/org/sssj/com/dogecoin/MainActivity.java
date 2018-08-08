@@ -121,8 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
         // int minutes = new Time(System.currentTimeMillis());
 
-        // Toast.makeText(this, "Minutes =" + minutes, Toast.LENGTH_SHORT).show();
-
 
         spinner = (ProgressBar) findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
@@ -187,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
 
          //   if (Check_user_And_DeviceID()) {
 
-             //   Toast.makeText(this, "Boolean " + bolDevPresent, Toast.LENGTH_SHORT).show();
 
                 if (currentTime > newTime) {
                     //  Log.i("XXXXX", "IN if true");
@@ -202,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
                         in.putExtra("ubal", lastBalance);
                         //   in.putExtra("fromMain", true);
                         startActivity(in);
-                        Toast.makeText(this, "From Start", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         // Log.i("XXXXX", "User Null");
@@ -210,12 +206,10 @@ public class MainActivity extends AppCompatActivity {
 
                 }
          //   } else {
-           //     Toast.makeText(this, "Boolean " + bolDevPresent, Toast.LENGTH_SHORT).show();
 
             //}
 
         } else {
-          //  Toast.makeText(MainActivity.this, "No internet Please on internet & restart app", Toast.LENGTH_LONG).show();
             finish();;
             startActivity(new Intent(MainActivity.this,Try_again.class));
         }
@@ -234,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 spinner.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, "Google responce error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Please try again...", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -260,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
                             spinner.setVisibility(View.GONE);
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(MainActivity.this, "Authentication failed. try again",
                                     Toast.LENGTH_SHORT).show();
 
                         }
@@ -318,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 spinner.setVisibility(View.GONE);
                 Log.i(TAG, "Response Error " + error);
-                Toast.makeText(MainActivity.this, "Response Error  " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Please try after some time  " , Toast.LENGTH_LONG).show();
 
             }
         }) {
@@ -430,7 +424,6 @@ public class MainActivity extends AppCompatActivity {
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(MainActivity.this, "You clicked on Yes", Toast.LENGTH_SHORT).show();
                 UpdateDeviceID();
                 rateusDialog.dismiss();
             }
@@ -439,7 +432,6 @@ public class MainActivity extends AppCompatActivity {
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "You clicked on No...", Toast.LENGTH_SHORT).show();
                 rateusDialog.dismiss();
             }
         });
@@ -480,7 +472,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 spinner.setVisibility(View.GONE);
                 Log.i(TAG, "Response Error " + error);
-                Toast.makeText(MainActivity.this, "Response Error  " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Please try again..." , Toast.LENGTH_SHORT).show();
 
             }
         }) {
