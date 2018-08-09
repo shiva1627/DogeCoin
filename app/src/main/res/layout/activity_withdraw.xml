@@ -2,140 +2,156 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
-    tools:context=".WithdrawActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/withdrawCardV1"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:background="@drawable/background_gradient"
+            tools:context=".WithdrawActivity">
 
-            <TextView
-                android:id="@+id/txtwbalance"
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:id="@+id/withdrawCardV1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Current Balance : - "
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_margin="10dp">
 
-            <TextView
-                android:id="@+id/txtwbalance2"
-                android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/txtwbalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/current_balance"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtwbalance2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@id/txtwbalance"
+                        android:text="-"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/withdrawCardV2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/txtwbalance"
-                android:text="-"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_below="@+id/withdrawCardV1"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/request_withdrawal"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="10dp"
+                        android:background="#000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/info_about_fees"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/amt"
+                        android:textSize="10sp" />
+
+                    <EditText
+                        android:id="@+id/edwithAmt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:enabled="false"
+                        android:inputType="numberDecimal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/est_receive"
+                        android:textSize="10sp" />
+
+                    <EditText
+                        android:id="@+id/edwithEstimatedAmt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:enabled="false"
+                        android:inputType="numberDecimal"
+                        android:maxLength="6" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Doge Address"
+                        android:textSize="10sp" />
+
+                    <EditText
+                        android:id="@+id/edwithDogeAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:enabled="false" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/req_msg"
+                        android:textSize="8sp" />
+
+
+                    <Button
+                        android:id="@+id/btnwithRequest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btnbg_gradient"
+                        android:enabled="false"
+                        android:text="@string/request" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
 
         </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/withdrawCardV2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/withdrawCardV1"
-        android:layout_margin="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Request Withdrawal"
-                android:textSize="20sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="10dp"
-                android:background="#000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="information about fees"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Amount"
-                android:textSize="10sp" />
-
-            <EditText
-                android:id="@+id/edwithAmt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:enabled="false"
-                android:inputType="numberDecimal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Estimated Receive"
-                android:textSize="10sp" />
-
-            <EditText
-                android:id="@+id/edwithEstimatedAmt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:maxLength="6"
-                android:enabled="false"
-                android:inputType="numberDecimal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Doge Address"
-                android:textSize="10sp" />
-
-            <EditText
-                android:id="@+id/edwithDogeAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:enabled="false" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="*please check doge address before requesting  "
-                android:textSize="8sp" />
-
-
-            <Button
-                android:id="@+id/btnwithRequest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:enabled="false"
-                android:text="Request" />
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/banner_container"
@@ -144,5 +160,4 @@
         android:layout_alignParentBottom="true"
         android:background="#000"
         android:orientation="vertical" />
-
 </RelativeLayout>

@@ -47,6 +47,13 @@ Note:- Subject to change any time.</string>
 
     <string name="facebook_app_id">2320420031318097</string>
     <string name="fb_login_protocol_scheme">fb2320420031318097</string>
+    <string name="current_balance">Current Balance : -</string>
+    <string name="request_withdrawal">Request Withdrawal</string>
+    <string name="info_about_fees">*** Withdrawal fees are dependent on on market conditions. \n For more deatils check Help menu.</string>
+    <string name="amt">Amount</string>
+    <string name="est_receive">Estimated Receive</string>
+    <string name="req_msg">* Please check doge address before requesting</string>
+    <string name="request">Request</string>
 
 </resources>
 

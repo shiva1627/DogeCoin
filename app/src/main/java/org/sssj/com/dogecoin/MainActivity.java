@@ -1,5 +1,6 @@
 package org.sssj.com.dogecoin;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,6 +15,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -46,13 +49,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import io.fabric.sdk.android.Fabric;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.fabric.sdk.android.Fabric;
 
 import static android.Manifest.permission.READ_PHONE_STATE;
 
@@ -85,10 +89,11 @@ public class MainActivity extends AppCompatActivity {
     private final static int ALL_PERMISSIONS_RESULT = 101;
 
     private ProgressBar spinner;
-    boolean bolDevPresent = false;
     private static final String DATE_FORMAT_MM_dd_yyyy_HH_mm_ss = "MM.dd.yyyy:HH.mm.ss";
     Long currentTime, newTime, savedTime;
 
+    @SuppressLint("HardwareIds")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,21 +119,21 @@ public class MainActivity extends AppCompatActivity {
 
         savedTime = sharedpreferences.getLong("LastClaim", 0);
         newTime = savedTime + 600000;
-        //   Log.i("XXXXX", "CurrentTime " + currentTime + " savedTime " + savedTime + " newTime " + newTime);
         lastBalance = sharedpreferences.getString("lastBalance", "0.00");
 
-        //addNMinutesToTime(Calendar.getInstance());
 
-        // int minutes = new Time(System.currentTimeMillis());
 
 
         spinner = (ProgressBar) findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
+    //  phone permission for getting device id...
+
         permissions.add(READ_PHONE_STATE);
         permissionsToRequest = findUnAskedPermissions(permissions);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (permissionsToRequest.size() > 0)
+                Log.i("MyTesting","Permissions 1");
                 requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
         }
 
@@ -138,11 +143,10 @@ public class MainActivity extends AppCompatActivity {
         telephonyManager = (TelephonyManager) getSystemService(Context.
                 TELEPHONY_SERVICE);
 
-        /* getDeviceId() returns the unique device ID.*/
-        deviceId = telephonyManager.getDeviceId();
-        /* getSubscriberId() returns the unique subscriber ID,         */
 
-        //  String subscriberId = telephonyManager.getSubscriberId();
+        deviceId = telephonyManager.getDeviceId();
+
+
 
         //firebase google sign in
         mAuth = FirebaseAuth.getInstance();
@@ -159,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
                 spinner.getIndeterminateDrawable().setColorFilter(0xFFFFFFFF, android.graphics.PorterDuff.Mode.MULTIPLY);
 
                 if (is_Internet()) {
+                    Log.i("MyTesting","is_Internet true");
+
                     signIn();
                 } else {
                     Toast.makeText(MainActivity.this, "Please Check Internet Connection !!!", Toast.LENGTH_SHORT).show();
@@ -182,14 +188,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (is_Internet()) {
+            Log.i("MyTesting","is_Internet true 2");
 
-         //   if (Check_user_And_DeviceID()) {
+
+            //   if (Check_user_And_DeviceID()) {
 
 
                 if (currentTime > newTime) {
+                    Log.i("MyTesting","Start if 1");
+
                     //  Log.i("XXXXX", "IN if true");
                     FirebaseAuth.getInstance().signOut();
                 } else {
+                    Log.i("MyTesting","Start if 2");
+
                     //  Log.i("XXXXX", "IN if false");
                     if (mAuth.getCurrentUser() != null) {
                         usergmail = mAuth.getCurrentUser().getEmail();
@@ -201,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(in);
                         finish();
                     } else {
-                        // Log.i("XXXXX", "User Null");
+                        Log.i("MyTesting","Start if 3");
                     }
 
                 }
@@ -220,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i("MyTesting","onActivityResult 1");
 
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -235,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        Log.i("MyTesting","firebaseAuthWithGoogle 1");
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
 
@@ -265,6 +279,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void signIn() {
+        Log.i("MyTesting","signIn fun 1");
+
         //getting the google signin intent
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         //starting the activity for result
@@ -273,6 +289,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void Sign_in_to_next_Activity() {
+        Log.i("MyTesting","Sign_in_to_next_Activity fun 1");
+
         StringRequest addStringRequest = new StringRequest(Request.Method.POST, URLADD, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -488,60 +506,5 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(addStringRequest);
     }
 
-   /* //checking user or device already present
-    private boolean Check_user_And_DeviceID() {
-
-        StringRequest addStringRequest = new StringRequest(Request.Method.POST, URLADD, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                spinner.setVisibility(View.GONE);
-
-                Log.i("XXXXX",response);
-             *//*   try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    switch (jsonObject.getInt("success")) {
-                        case 2:
-                            bolDevPresent = true;
-                            // NewDeviceFound();
-                            //   Toast.makeText(MainActivity.this, "New Device Found!!!", Toast.LENGTH_SHORT).show();
-                            break;
-                        case 3:
-                            bolDevPresent = true;
-                            // mGoogleSignInClient.signOut();
-                            //  Toast.makeText(MainActivity.this, "New Gmail found on same device,try to Login with register Gmail account !!! ", Toast.LENGTH_LONG).show();
-                            break;
-                    }
-
-                    // Log.i("XXXXX", "Res " + response);
-
-                } catch (JSONException e) {
-                    spinner.setVisibility(View.GONE);
-                    Log.i(TAG, " Err " + e);
-
-                }*//*
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                spinner.setVisibility(View.GONE);
-                Log.i(TAG, "Response Error " + error);
-                Toast.makeText(MainActivity.this, "Response Error  " + error, Toast.LENGTH_SHORT).show();
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> param = new HashMap<>();
-                param.put("email", "shiva.281191@gmail.com");
-                param.put("name", username);
-                param.put("devid", deviceId);
-                return param;
-            }
-        };
-        requestQueue.add(addStringRequest);
-        return bolDevPresent;
-    }*/
 
 }
