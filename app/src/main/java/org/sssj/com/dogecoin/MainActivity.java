@@ -16,7 +16,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences;
 
     RequestQueue requestQueue;
-    ProgressDialog progressBar;
     Dialog rateusDialog;
     String URLADD = "http://sscoinmedia.tech/DogeWebService/dogeUserAdd.php";
     String Change_Dev_ID = "http://sscoinmedia.tech/DogeWebService/dogeUpdateDeviceId.php";
@@ -124,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        spinner = (ProgressBar) findViewById(R.id.progressBar1);
+        spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
     //  phone permission for getting device id...
@@ -138,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
         }
 */
 
-        progressBar = new ProgressDialog(this);
         requestQueue = MySingleton.getInstance(this).getRequestQueue();  //using singleton object
         telephonyManager = (TelephonyManager) getSystemService(Context.
                 TELEPHONY_SERVICE);
@@ -222,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             //}
 
         } else {
-            finish();;
+            finish();
             startActivity(new Intent(MainActivity.this,Try_again.class));
         }
 
@@ -330,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 spinner.setVisibility(View.GONE);
                 Log.i(TAG, "Response Error " + error);
-                Toast.makeText(MainActivity.this, "Please try after some time  " , Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Network problem, try after some time  " , Toast.LENGTH_LONG).show();
 
             }
         }) {
@@ -347,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
 
         for (String perm : wanted) {
             if (!hasPermission(perm)) {
@@ -374,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (requestCode) {
 

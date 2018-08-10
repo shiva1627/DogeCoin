@@ -54,6 +54,8 @@ Note:- Subject to change any time.</string>
     <string name="est_receive">Estimated Receive</string>
     <string name="req_msg">* Please check doge address before requesting</string>
     <string name="request">Request</string>
+    <string name="symhypen">-</string>
+    <string name="doge_address">Doge Address</string>
 
 </resources>
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class HomeFragment extends Fragment {
     TextView txtEmail, txtubal, txtClaimRate, txtlastclaim;
     FirebaseAuth mAuth;
     Button btnclaim;
-  //  private InterstitialAd mInterstitialAd;
+    //  private InterstitialAd mInterstitialAd;
 
     private InterstitialAd interstitialAd;
     private AdView adView;
@@ -66,22 +67,22 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-      //  AdSettings.addTestDevice("c0f52b1d-f324-468d-a61e-429fc386e0a0");
+        //  AdSettings.addTestDevice("c0f52b1d-f324-468d-a61e-429fc386e0a0");
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         requestQueue = MySingleton.getInstance(getActivity()).getRequestQueue();
 
-        spinner2 = (ProgressBar) view.findViewById(R.id.progressBar2);
+        spinner2 = view.findViewById(R.id.progressBar2);
         spinner2.setVisibility(View.GONE);
 
 
-        txtClaimRate = (TextView) view.findViewById(R.id.txtclaimrate);
-        txtlastclaim = (TextView) view.findViewById(R.id.txtlastclaim);
-        txtubal = (TextView) view.findViewById(R.id.txtcurrentbal);
-        btnclaim = (Button) view.findViewById(R.id.btnclaim);
+        txtClaimRate = view.findViewById(R.id.txtclaimrate);
+        txtlastclaim = view.findViewById(R.id.txtlastclaim);
+        txtubal = view.findViewById(R.id.txtcurrentbal);
+        btnclaim = view.findViewById(R.id.btnclaim);
 
         btnclaim.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,14 +101,13 @@ public class HomeFragment extends Fragment {
         // Instantiate an AdView view
         adView = new AdView(getActivity(), " 239164800060456_239842343326035", AdSize.BANNER_HEIGHT_50);
         // Find the Ad Container
-        LinearLayout adContainer = (LinearLayout) view.findViewById(R.id.banner_container);
+        LinearLayout adContainer = view.findViewById(R.id.banner_container);
 
         // Add the ad view to your activity layout
         adContainer.addView(adView);
 
         // Request an ad
         adView.loadAd();
-
 
 
         // Instantiate an InterstitialAd object
@@ -144,7 +144,8 @@ public class HomeFragment extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     Log.i("ZZZZZ", "" + jsonObject.get("success"));
-                    txtlastclaim.setText(getString(R.string.lastclaim) + " " + jsonObject.get("claimamt"));
+                    String lastClaim = getString(R.string.lastclaim) + " " + jsonObject.get("claimamt");
+                    txtlastclaim.setText(lastClaim);
                     Toast.makeText(getActivity(), "You got " + jsonObject.get("claimamt") + " Doge", Toast.LENGTH_SHORT).show();
                     startCountdown(300000, 100);
                     txtubal.setText(jsonObject.get("ubal").toString());
@@ -156,14 +157,14 @@ public class HomeFragment extends Fragment {
                     editor.putLong("LastClaim", tsLong);
                     editor.putString("lastBalance", jsonObject.get("ubal").toString());
 
-                    editor.commit();
+                    editor.apply();
 
                     // requestQueue.stop();
 
-                   load_interstitial();
+                    load_interstitial();
 
                 } catch (JSONException e) {
-                   load_interstitial();
+                    load_interstitial();
 
                     btnclaim.setEnabled(true);
                     // requestQueue.stop();
@@ -189,7 +190,7 @@ public class HomeFragment extends Fragment {
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> param = new HashMap<>();
                 param.put("email", mAuth.getCurrentUser().getEmail());
                 param.put("claimok", "ok");
@@ -254,7 +255,8 @@ public class HomeFragment extends Fragment {
                     Log.i("RESPONCEX", "Timer " + response);
 
                     Log.i("Claim_Timer", "Diff ->" + jsonObject.get("diff"));
-                    txtubal.setText(jsonObject.getDouble("ubal") + "");
+                    String txtBal=jsonObject.getDouble("ubal") + "";
+                    txtubal.setText(txtBal);
 
                     int diffTime = jsonObject.getInt("diff");
                     if (diffTime < 300) {
@@ -293,9 +295,11 @@ public class HomeFragment extends Fragment {
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> param = new HashMap<>();
                 param.put("email", mAuth.getCurrentUser().getEmail());
+                Log.i("Claim_Timer", "Response 2" + mAuth.getCurrentUser().getEmail());
+
                 return param;
             }
         };

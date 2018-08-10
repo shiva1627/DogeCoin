@@ -14,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,7 +32,6 @@ public class User_account extends AppCompatActivity {
     TextView nameUser, mailUser, txtMainBal, txtCurrBal, txtDogeAddr;
     String personPhotoUrl;
     String MainBal = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer.php";
-    private AdView mAdView;
     RequestQueue requestQueue;
 
     private AlertDialog progressDialog;
@@ -47,7 +45,6 @@ public class User_account extends AppCompatActivity {
         progressDialog = new SpotsDialog(this, R.style.Custom);
         progressDialog.show();
 
-        AdRequest adRequest = new AdRequest.Builder().build();
         requestQueue = MySingleton.getInstance(getApplicationContext()).getRequestQueue();
 
 
