@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashScreen"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -68,7 +68,7 @@
             android:name="io.fabric.ApiKey"
             android:value="90d2b5d0daf4474bb8b208bf1c24ec6d6a054fb5" />
 
-        <activity android:name=".SplashScreen"></activity>
+        <activity android:name=".MainActivity"  android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

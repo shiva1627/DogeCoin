@@ -130,13 +130,13 @@ public class MainActivity extends AppCompatActivity {
     //  phone permission for getting device id...
 
         permissions.add(READ_PHONE_STATE);
-        permissionsToRequest = findUnAskedPermissions(permissions);
+     /*   permissionsToRequest = findUnAskedPermissions(permissions);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (permissionsToRequest.size() > 0)
                 Log.i("MyTesting","Permissions 1");
                 requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
         }
-
+*/
 
         progressBar = new ProgressDialog(this);
         requestQueue = MySingleton.getInstance(this).getRequestQueue();  //using singleton object
