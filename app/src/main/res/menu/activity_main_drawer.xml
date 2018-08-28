@@ -26,6 +26,10 @@
         android:icon="@drawable/nav_contactus"
         android:title="Contact us" />
     <item
+        android:id="@+id/nav_rateus"
+        android:icon="@drawable/nav_rateus"
+        android:title="Rate us" />
+    <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/nav_logout"
         android:title="Logout" />

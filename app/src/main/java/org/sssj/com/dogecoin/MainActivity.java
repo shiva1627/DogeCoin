@@ -41,7 +41,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 234;
     private static final String TAG = "MainActivity";
-    private FirebaseAnalytics mFirebaseAnalytics;
     GoogleSignInClient mGoogleSignInClient;
 
     FirebaseAuth mAuth;
@@ -99,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Window window = this.getWindow();
 
 // clear FLAG_TRANSLUCENT_STATUS flag:
@@ -181,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
         /*bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");*/
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
 
         if (is_Internet()) {
@@ -238,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 spinner.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, "Please try again...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Slow internet ... please try again!!!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -327,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 spinner.setVisibility(View.GONE);
                 Log.i(TAG, "Response Error " + error);
-                Toast.makeText(MainActivity.this, "Network problem, try after some time  " , Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Network problem, please try after some time  " , Toast.LENGTH_LONG).show();
 
             }
         }) {
@@ -487,7 +483,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 spinner.setVisibility(View.GONE);
                 Log.i(TAG, "Response Error " + error);
-                Toast.makeText(MainActivity.this, "Please try again..." , Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Network problem, please try after some time  " , Toast.LENGTH_LONG).show();
 
             }
         }) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.inmobi.ads"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -150,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Doge Address "
+                android:text="@string/doge_address"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -161,9 +162,19 @@
                 android:layout_below="@+id/txtdoge1"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="10dp"
-                android:text="asdghjklpoiuytrexcvgjhgjhhjhghf"
+                android:text="@string/not_set"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
+
+    <com.startapp.android.publish.ads.banner.Banner
+        android:id="@+id/startAppBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        adTag="ssD_UserAccBanner"
+        />
+
 </RelativeLayout>

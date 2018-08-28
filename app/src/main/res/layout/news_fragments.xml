@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
-    android:orientation="vertical">
+    android:background="@drawable/background_gradient">
 
 
     <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/startAppBanner">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,6 +31,69 @@
 
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/sa_ads_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/sa_main_ads_img"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="10dp"
+                    app:srcCompat="@drawable/ic_expand" />
+
+                <TextView
+                    android:id="@+id/sa_ads_app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/sa_main_ads_img"
+                    android:layout_toRightOf="@+id/sa_main_ads_img"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/sa_native_ad_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sa_ads_app_name"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/sa_main_ads_img"
+                    android:layout_toRightOf="@+id/sa_main_ads_img"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:lines="2"
+                    android:textColor="@android:color/black"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+
+                <Button
+                    android:id="@+id/sa_native_ad_call_to_action"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/sa_native_ad_description"
+                    android:layout_marginTop="5dp"
+                    android:background="#4286F4"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:text="@string/install"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycleview"
                 android:layout_width="match_parent"
@@ -36,6 +102,18 @@
                 android:layout_marginRight="10dp">
 
             </android.support.v7.widget.RecyclerView>
+
+
         </LinearLayout>
+
     </ScrollView>
-</LinearLayout>
+
+    <com.startapp.android.publish.ads.banner.Banner
+        android:id="@+id/startAppBanner"
+        adTag="ssD_NewsBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
+</RelativeLayout>

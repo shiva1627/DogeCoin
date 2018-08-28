@@ -56,6 +56,8 @@ Note:- Subject to change any time.</string>
     <string name="request">Request</string>
     <string name="symhypen">-</string>
     <string name="doge_address">Doge Address</string>
+    <string name="not_set">Not set</string>
+    <string name="install">INSTALL</string>
 
 </resources>
 

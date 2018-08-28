@@ -1,6 +1,8 @@
 package org.sssj.com.dogecoin;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -54,6 +56,10 @@ public class WithdrawActivity extends AppCompatActivity {
     Double WDAmt, WDEstiAmt;
     String DogeAddr;
 
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor prefseditor;
+    int startappCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +68,10 @@ public class WithdrawActivity extends AppCompatActivity {
         edAmount = (EditText) findViewById(R.id.edwithAmt);
         edEstiAmt = (EditText) findViewById(R.id.edwithEstimatedAmt);
         edDogeAddr = (EditText) findViewById(R.id.edwithDogeAddress);
-
+        prefs = getSharedPreferences("startappCount", Context.MODE_PRIVATE);
+        prefseditor = prefs.edit();
+        prefseditor.putInt("startappCount", 1);
+        prefseditor.commit();
 
         // Instantiate an AdView view
         adView = new com.facebook.ads.AdView(getApplicationContext(), " 239164800060456_239842343326035", AdSize.BANNER_HEIGHT_50);

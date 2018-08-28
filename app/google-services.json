@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "217641497063-tq24uoude228qe8mlsc1251b4jdn84lf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.sssj.com.dogecoin",
+            "certificate_hash": "39252410967b213704da9c4228105aaaaf7bf925"
+          }
+        },
+        {
           "client_id": "217641497063-6s2occ9vuilufatlbiu2onm6tqsrthet.apps.googleusercontent.com",
           "client_type": 3
         }

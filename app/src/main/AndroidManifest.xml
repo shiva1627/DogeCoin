@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.sssj.com.dogecoin">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="true"
@@ -31,18 +38,6 @@
         <activity android:name=".WithdrawActivity" />
         <activity android:name=".Try_again" />
 
-        <!-- fcm -->
-        <service android:name=".MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".MyFirebaseInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -68,7 +63,34 @@
             android:name="io.fabric.ApiKey"
             android:value="90d2b5d0daf4474bb8b208bf1c24ec6d6a054fb5" />
 
-        <activity android:name=".MainActivity"  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.startapp.android.publish.ads.list3d.List3DActivity"
+            android:theme="@android:style/Theme" />
+        <activity
+            android:name="com.startapp.android.publish.adsCommon.activities.OverlayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name="com.startapp.android.publish.adsCommon.activities.FullScreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme" />
+
+        <service android:name="com.startapp.android.publish.common.metaData.PeriodicMetaDataService" />
+        <service android:name="com.startapp.android.publish.common.metaData.InfoEventService" />
+        <service
+            android:name="com.startapp.android.publish.common.metaData.PeriodicJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver android:name="com.startapp.android.publish.common.metaData.BootCompleteListener">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".Donate_Us"></activity>
     </application>
 
 </manifest>

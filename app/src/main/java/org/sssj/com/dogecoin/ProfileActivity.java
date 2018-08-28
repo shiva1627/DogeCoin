@@ -18,8 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.ads.AdSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.android.publish.adsCommon.StartAppSDK;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,15 +32,19 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     private ViewPager mViewPager;
     String personPhotoUrl;
-    TextView txtEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StartAppSDK.init(this, "207596372", false);
+        StartAppSDK.setUserConsent (getApplicationContext(),
+                "pas",
+                System.currentTimeMillis(),
+                true);
+        StartAppAd.disableSplash();
+        StartAppAd.disableAutoInterstitial();
         setContentView(R.layout.activity_profile);
-
-
-
-
+        AdSettings.addTestDevice("d445f630-b640-4227-8b90-3acbfe7aa26d");
         msectionPageAdapter = new SectionPageAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
@@ -52,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         TextView navUsername = (TextView) headerView.findViewById(R.id.nav_email);
 
 
-        FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
 
@@ -62,12 +69,11 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         }
 
 
-        ImageView imgUser=(ImageView) headerView.findViewById(R.id.nav_img);
+        ImageView imgUser = (ImageView) headerView.findViewById(R.id.nav_img);
 
         Glide.with(getApplicationContext()).load(personPhotoUrl)
                 .thumbnail(0.5f)
                 .into(imgUser);
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -109,6 +115,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             startActivity(in);
 
         } else if (id == R.id.nav_donate) {
+            Intent in = new Intent(ProfileActivity.this, Donate_Us.class);
+            startActivity(in);
             Toast.makeText(this, "We will add this feature soon...", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_help) {
@@ -121,6 +129,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             intent.putExtra(Intent.EXTRA_SUBJECT, "SSDoge App Support Request #");
             intent.putExtra(Intent.EXTRA_TEXT, "");
             startActivity(Intent.createChooser(intent, "Choose an Email client :"));
+
+        } else if (id == R.id.nav_rateus) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=org.sssj.com.dogecoin")));
 
         } else if (id == R.id.nav_logout) {
 

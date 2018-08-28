@@ -18,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,9 +26,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
 import com.facebook.ads.InterstitialAd;
-import com.facebook.ads.NativeAd;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.startapp.android.publish.adsCommon.StartAppAd;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,12 +42,10 @@ public class HomeFragment extends Fragment {
     String Claim_url = "http://sscoinmedia.tech/DogeWebService/dogeBalanceUpdate.php";
     String Claim_timer_url = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer.php";
 
-
     CountDownTimer countdt;
     TextView txtEmail, txtubal, txtClaimRate, txtlastclaim;
     FirebaseAuth mAuth;
     Button btnclaim;
-    //  private InterstitialAd mInterstitialAd;
 
     private InterstitialAd interstitialAd;
     private AdView adView;
@@ -60,10 +57,11 @@ public class HomeFragment extends Fragment {
 
     public static final String MyPREFERENCES = "MyPrefs";
     SharedPreferences sharedpreferences;
+    private StartAppAd startAppAd;
 
-    private NativeAd nativeAd;
-    private LinearLayout nativeAdContainer;
-    private LinearLayout nativeadView;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor prefseditor;
+    int startappCount;
 
     @Nullable
     @Override
@@ -72,8 +70,9 @@ public class HomeFragment extends Fragment {
 
         //  AdSettings.addTestDevice("c0f52b1d-f324-468d-a61e-429fc386e0a0");
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
+        prefs = getActivity().getSharedPreferences("startappCount", Context.MODE_PRIVATE);
         requestQueue = MySingleton.getInstance(getActivity()).getRequestQueue();
+        startAppAd = new StartAppAd(getActivity());
 
         spinner2 = view.findViewById(R.id.progressBar2);
         spinner2.setVisibility(View.GONE);
@@ -116,7 +115,6 @@ public class HomeFragment extends Fragment {
         // load the ad
         interstitialAd.loadAd();
 
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -125,12 +123,6 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-
-   /* @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // FirebaseAuth.getInstance().signOut();
-    }*/
 
 
     private void Claim_Doge() {
@@ -159,12 +151,26 @@ public class HomeFragment extends Fragment {
 
                     editor.apply();
 
-                    // requestQueue.stop();
 
-                    load_interstitial();
+                    if (!interstitialAd.show()) {
+                        startAppAd.showAd("ssD_ClaimInterstetial"); // show the ad
+                        startAppAd.loadAd(); // load the next ad
+                    } else {
+                        interstitialAd.loadAd();
+                    }
+
+                   /* prefseditor = prefs.edit();
+                    prefseditor.putInt("startappCount", 1);
+                    prefseditor.apply();*/
+                    // StartAppAd.disableAutoInterstitial();
+                    //  StartAppAd.showAd(getActivity());
 
                 } catch (JSONException e) {
+                    prefseditor = prefs.edit();
+                    prefseditor.putInt("startappCount", 1);
+                    prefseditor.apply();
                     load_interstitial();
+
 
                     btnclaim.setEnabled(true);
                     // requestQueue.stop();
@@ -179,6 +185,9 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                prefseditor = prefs.edit();
+                prefseditor.putInt("startappCount", 1);
+                prefseditor.apply();
                 load_interstitial();
 
                 // requestQueue.stop();
@@ -201,8 +210,25 @@ public class HomeFragment extends Fragment {
     }
 
     private void load_interstitial() {
-        // Show the ad
-        interstitialAd.show();
+
+        startappCount = prefs.getInt("startappCount", 0);
+
+        if (startappCount == 1) {
+
+            if (!interstitialAd.show()) {
+
+                startAppAd.showAd("ssD_ResumeInterstetial"); // show the ad
+                startAppAd.loadAd();
+
+            } else {
+                interstitialAd.loadAd();
+
+            }
+        }
+        prefseditor = prefs.edit();
+        prefseditor.putInt("startappCount", 0);
+        prefseditor.apply();
+
     }
 
 
@@ -228,11 +254,13 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onResume() {
-        load_interstitial();
+        //
 
+        load_interstitial();
         // Request an ad
         adView.loadAd();
         super.onResume();
+        startAppAd.onResume();
         spinner2.setVisibility(View.GONE);
         if (!btnclaim.getText().equals("Claim")) {
             Log.i("Claim_Timer", btnclaim.getText() + "  Not Equal ");
@@ -255,7 +283,7 @@ public class HomeFragment extends Fragment {
                     Log.i("RESPONCEX", "Timer " + response);
 
                     Log.i("Claim_Timer", "Diff ->" + jsonObject.get("diff"));
-                    String txtBal=jsonObject.getDouble("ubal") + "";
+                    String txtBal = jsonObject.getDouble("ubal") + "";
                     txtubal.setText(txtBal);
 
                     int diffTime = jsonObject.getInt("diff");
@@ -317,4 +345,12 @@ public class HomeFragment extends Fragment {
         }
         super.onDestroy();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        interstitialAd.loadAd();
+    }
+
+
 }

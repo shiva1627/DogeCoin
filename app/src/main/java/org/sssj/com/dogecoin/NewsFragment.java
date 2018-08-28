@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,6 +27,12 @@ import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSettings;
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
+import com.startapp.android.publish.ads.nativead.NativeAdDetails;
+import com.startapp.android.publish.ads.nativead.NativeAdPreferences;
+import com.startapp.android.publish.ads.nativead.StartAppNativeAd;
+import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.android.publish.adsCommon.StartAppSDK;
+import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,10 +53,134 @@ public class NewsFragment extends Fragment {
     private LinearLayout adView;
     View view;
 
+    /**
+     * StartAppAd object declaration
+     */
+    private StartAppAd startAppAd = new StartAppAd(getContext());
+
+    /**
+     * StartApp Native Ad declaration
+     */
+    private StartAppNativeAd sa_NativeAds;
+    private NativeAdDetails sa_nativeAd_Details = null;
+
+    private ImageView sa_ads_img = null;
+
+    private TextView sa_ads_name = null;
+    private TextView sa_Description = null;
+    RelativeLayout sa_ads_layout;
+    Button sa_native_ad_call_to_action;
+
+    /**
+     * Native Ad Callback
+     */
+    private AdEventListener nativeAdListener = new AdEventListener() {
+
+        @Override
+        public void onReceiveAd(com.startapp.android.publish.adsCommon.Ad ad) {
+
+            // Get the native ad
+            ArrayList<NativeAdDetails> nativeAdsList = sa_NativeAds.getNativeAds("ssD_NewsNativeAd");
+            if (nativeAdsList.size() > 0) {
+                sa_nativeAd_Details = nativeAdsList.get(0);
+            }
+
+            // Verify that an ad was retrieved
+            if (sa_nativeAd_Details != null) {
+
+                // When ad is received and displayed - we MUST send impression
+                sa_nativeAd_Details.sendImpression(getActivity());
+
+                if (sa_ads_img != null && sa_ads_name != null) {
+
+                    // Set button as enabled
+                    sa_ads_img.setEnabled(true);
+                    sa_ads_name.setEnabled(true);
+                    sa_ads_layout.setVisibility(View.VISIBLE);
+
+
+                    // Set ad's image
+                    sa_ads_img.setImageBitmap(sa_nativeAd_Details.getImageBitmap());
+
+                    // Set ad's title
+                    sa_ads_name.setText(sa_nativeAd_Details.getTitle());
+                    sa_Description.setText(sa_nativeAd_Details.getDescription());
+                }
+            }
+        }
+
+        @Override
+        public void onFailedToReceiveAd(com.startapp.android.publish.adsCommon.Ad ad) {
+
+            // Error occurred while loading the native ad
+            if (sa_ads_name != null) {
+                sa_ads_name.setText("Error while loading Native Ad");
+                Log.i("StartAppX", ad.getErrorMessage());
+                sa_ads_layout.setVisibility(View.GONE);
+
+            }
+        }
+    };
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.news_fragments, container, false);
+        StartAppSDK.init(getActivity(), "207596372", false);
+        sa_NativeAds = new StartAppNativeAd(getActivity());
+/** Initialize Native Ad views **/
+/** Initialize Native Ad views **/
+        sa_ads_layout = (RelativeLayout) view.findViewById(R.id.sa_ads_layout);
+        sa_ads_layout.setVisibility(View.GONE);
+        sa_ads_img = (ImageView) view.findViewById(R.id.sa_main_ads_img);
+        sa_ads_name = (TextView) view.findViewById(R.id.sa_ads_app_name);
+        sa_Description = (TextView) view.findViewById(R.id.sa_native_ad_description);
+        sa_native_ad_call_to_action = (Button) view.findViewById(R.id.sa_native_ad_call_to_action);
+
+        if (sa_ads_name != null) {
+            sa_ads_name.setText("Loading Native Ad...");
+
+        }
+        sa_ads_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sa_Ads_AppClick();
+            }
+        });
+        sa_ads_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sa_Ads_AppClick();
+            }
+        });
+        sa_ads_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sa_Ads_AppClick();
+            }
+        });
+        sa_Description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sa_Ads_AppClick();
+            }
+        });
+        sa_native_ad_call_to_action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sa_Ads_AppClick();
+            }
+        });
+        sa_NativeAds.loadAd(
+                new NativeAdPreferences()
+                        .setAdsNumber(1)
+                        .setAutoBitmapDownload(true)
+                        .setPrimaryImageSize(0),
+
+                nativeAdListener);
+
         NewsRecyclerView = (RecyclerView) view.findViewById(R.id.recycleview);
         NewsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //NewsRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -154,7 +284,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void inflateAd(NativeAd nativeAd) {
-      //  Toast.makeText(getActivity(), "Nativeads Loaded", Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(getActivity(), "Nativeads Loaded", Toast.LENGTH_SHORT).show();
 
         nativeAd.unregisterView();
 
@@ -201,14 +331,21 @@ public class NewsFragment extends Fragment {
         clickableViews.add(nativeAdCallToAction);
 
         // Register the Title and CTA button to listen for clicks.
-     //  nativeAd.registerViewForInteraction(adView, nativeAdMedia, nativeAdIcon, clickableViews);
-        nativeAd.registerViewForInteraction(adView,clickableViews);
+        //  nativeAd.registerViewForInteraction(adView, nativeAdMedia, nativeAdIcon, clickableViews);
+        nativeAd.registerViewForInteraction(adView, clickableViews);
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-     //   Toast.makeText(getActivity(), "OnDestroy", Toast.LENGTH_SHORT).show();
+        //   Toast.makeText(getActivity(), "OnDestroy", Toast.LENGTH_SHORT).show();
     }
+
+    public void sa_Ads_AppClick() {
+        if (sa_nativeAd_Details != null) {
+            sa_nativeAd_Details.sendClick(getContext());
+        }
+    }
+
 }
