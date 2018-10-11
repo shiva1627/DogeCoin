@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -27,12 +26,8 @@ import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSettings;
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
-import com.startapp.android.publish.ads.nativead.NativeAdDetails;
-import com.startapp.android.publish.ads.nativead.NativeAdPreferences;
-import com.startapp.android.publish.ads.nativead.StartAppNativeAd;
 import com.startapp.android.publish.adsCommon.StartAppAd;
 import com.startapp.android.publish.adsCommon.StartAppSDK;
-import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,20 +56,20 @@ public class NewsFragment extends Fragment {
     /**
      * StartApp Native Ad declaration
      */
-    private StartAppNativeAd sa_NativeAds;
-    private NativeAdDetails sa_nativeAd_Details = null;
+    // private StartAppNativeAd sa_NativeAds;
+    //  private NativeAdDetails sa_nativeAd_Details = null;
 
-    private ImageView sa_ads_img = null;
+    //  private ImageView sa_ads_img = null;
 
-    private TextView sa_ads_name = null;
-    private TextView sa_Description = null;
-    RelativeLayout sa_ads_layout;
-    Button sa_native_ad_call_to_action;
+    //   private TextView sa_ads_name = null;
+    //  private TextView sa_Description = null;
+//    RelativeLayout sa_ads_layout;
+    //   Button sa_native_ad_call_to_action;
 
     /**
      * Native Ad Callback
      */
-    private AdEventListener nativeAdListener = new AdEventListener() {
+ /*   private AdEventListener nativeAdListener = new AdEventListener() {
 
         @Override
         public void onReceiveAd(com.startapp.android.publish.adsCommon.Ad ad) {
@@ -120,19 +115,17 @@ public class NewsFragment extends Fragment {
 
             }
         }
-    };
-
-
+    };*/
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.news_fragments, container, false);
         StartAppSDK.init(getActivity(), "207596372", false);
-        sa_NativeAds = new StartAppNativeAd(getActivity());
+        //  sa_NativeAds = new StartAppNativeAd(getActivity());
 /** Initialize Native Ad views **/
 /** Initialize Native Ad views **/
-        sa_ads_layout = (RelativeLayout) view.findViewById(R.id.sa_ads_layout);
+     /*   sa_ads_layout = (RelativeLayout) view.findViewById(R.id.sa_ads_layout);
         sa_ads_layout.setVisibility(View.GONE);
         sa_ads_img = (ImageView) view.findViewById(R.id.sa_main_ads_img);
         sa_ads_name = (TextView) view.findViewById(R.id.sa_ads_app_name);
@@ -180,7 +173,7 @@ public class NewsFragment extends Fragment {
                         .setPrimaryImageSize(0),
 
                 nativeAdListener);
-
+*/
         NewsRecyclerView = (RecyclerView) view.findViewById(R.id.recycleview);
         NewsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //NewsRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -209,7 +202,9 @@ public class NewsFragment extends Fragment {
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject o = jsonArray.getJSONObject(i);
-                                News Object_news = new News(o.getString("subject"), o.getString("details"));
+                                Log.i("MyTest1", "--> " + o + "");
+
+                                News Object_news = new News(o.getString("subject"), o.getString("date"), o.getString("details"));
                                 newsList.add(Object_news);
                             }
                             NewsRecyclerView.setAdapter(new NewsAdapter(newsList, getContext()));
@@ -321,6 +316,13 @@ public class NewsFragment extends Fragment {
         nativeAdCallToAction.setVisibility(nativeAd.hasCallToAction() ? View.VISIBLE : View.INVISIBLE);
         nativeAdCallToAction.setText(nativeAd.getAdCallToAction());
         sponsoredLabel.setText(nativeAd.getAdSubtitle());
+
+        // Download and display the ad icon.
+        NativeAd.Image adIcon = nativeAd.getAdIcon();
+        NativeAd.downloadAndDisplayImage(adIcon, nativeAdIcon);
+
+        // Download and display the cover image.
+        nativeAdMedia.setNativeAd(nativeAd);
 /*
         sponsoredLabel.setText(nativeAd.getSponsoredTranslation());
 */
@@ -342,10 +344,10 @@ public class NewsFragment extends Fragment {
         //   Toast.makeText(getActivity(), "OnDestroy", Toast.LENGTH_SHORT).show();
     }
 
-    public void sa_Ads_AppClick() {
+   /* public void sa_Ads_AppClick() {
         if (sa_nativeAd_Details != null) {
             sa_nativeAd_Details.sendClick(getContext());
         }
-    }
+    }*/
 
 }

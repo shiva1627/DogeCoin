@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/lib/com.inmobi.ads"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -170,11 +169,10 @@
 
     <com.startapp.android.publish.ads.banner.Banner
         android:id="@+id/startAppBanner"
+        adTag="ssE_UserAccBanner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        adTag="ssD_UserAccBanner"
-        />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

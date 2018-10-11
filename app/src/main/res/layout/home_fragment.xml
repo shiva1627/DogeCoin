@@ -2,26 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/background_gradient"
     android:layout_height="match_parent"
     android:layout_marginTop="60dp"
+    android:background="@drawable/background_gradient"
     tools:showIn="@layout/app_bar_main">
-
-    <com.startapp.android.publish.ads.banner.Banner
-        android:id="@+id/startAppBanner"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        adTag="ssD_HomeBanner"
-        />
 
     <LinearLayout
         android:id="@+id/ll1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/startAppBanner"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -39,7 +40,7 @@ public class WithdrawActivity extends AppCompatActivity {
     private static Double maxBalance = 25.0;
     private static Double WDFees = 1.0;
 
-    String Curr_Bal_URL = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer.php";
+    String Curr_Bal_URL = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer1.php";
     String Withdraw_URL = "http://sscoinmedia.tech/DogeWebService/dogeAddrequest.php";
 
     private com.facebook.ads.AdView adView;
@@ -58,7 +59,15 @@ public class WithdrawActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
     private SharedPreferences.Editor prefseditor;
-    int startappCount = 0;
+
+
+    String deviceId = "not find";
+    TelephonyManager telephonyManager;
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +80,15 @@ public class WithdrawActivity extends AppCompatActivity {
         prefs = getSharedPreferences("startappCount", Context.MODE_PRIVATE);
         prefseditor = prefs.edit();
         prefseditor.putInt("startappCount", 1);
-        prefseditor.commit();
+        prefseditor.apply();
+
+
+        telephonyManager = (TelephonyManager) getSystemService(Context.
+                TELEPHONY_SERVICE);
+        deviceId = telephonyManager.getDeviceId();
+
+
+
 
         // Instantiate an AdView view
         adView = new com.facebook.ads.AdView(getApplicationContext(), " 239164800060456_239842343326035", AdSize.BANNER_HEIGHT_50);
@@ -201,6 +218,8 @@ public class WithdrawActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<>();
                 param.put("email", mAuth.getCurrentUser().getEmail());
+                param.put("devid", deviceId);
+
                 return param;
             }
         };

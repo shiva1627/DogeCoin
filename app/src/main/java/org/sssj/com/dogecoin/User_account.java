@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.startapp.android.publish.adsCommon.StartAppAd;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,18 +34,23 @@ public class User_account extends AppCompatActivity {
     ImageView imgUser;
     TextView nameUser, mailUser, txtMainBal, txtCurrBal, txtDogeAddr;
     String personPhotoUrl;
-    String MainBal = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer.php";
+    String MainBal = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer1.php";
     RequestQueue requestQueue;
+    int startappCount = 0;
+    String deviceId = "not find";
+    TelephonyManager telephonyManager;
     private SharedPreferences prefs;
     private SharedPreferences.Editor prefseditor;
-    int startappCount = 0;
     private AlertDialog progressDialog;
+    private StartAppAd startAppAd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_user_account);
+        startAppAd = new StartAppAd(this);
         prefs = getSharedPreferences("startappCount", Context.MODE_PRIVATE);
         prefseditor = prefs.edit();
         prefseditor.putInt("startappCount", 1);
@@ -52,6 +59,11 @@ public class User_account extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         progressDialog = new SpotsDialog(this, R.style.Custom);
         progressDialog.show();
+
+        telephonyManager = (TelephonyManager) getSystemService(Context.
+                TELEPHONY_SERVICE);
+        deviceId = telephonyManager.getDeviceId();
+
 
         requestQueue = MySingleton.getInstance(getApplicationContext()).getRequestQueue();
 
@@ -81,6 +93,8 @@ public class User_account extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        startAppAd.showAd("ssD_UserA/cInterstetial"); // show the ad
+        startAppAd.loadAd();
 
     }
 
@@ -117,6 +131,8 @@ public class User_account extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<>();
                 param.put("email", mAuth.getCurrentUser().getEmail());
+                param.put("devid", deviceId);
+
                 return param;
             }
         };

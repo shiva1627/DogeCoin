@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -96,19 +95,19 @@ public class MainActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
 
         setContentView(R.layout.activity_main);
-
-        Window window = this.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = this.getWindow();
 
 // clear FLAG_TRANSLUCENT_STATUS flag:
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.cardview_dark_background));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cardview_dark_background));
 
-
+        }
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         currentTime = System.currentTimeMillis();
 
@@ -117,12 +116,10 @@ public class MainActivity extends AppCompatActivity {
         lastBalance = sharedpreferences.getString("lastBalance", "0.00");
 
 
-
-
         spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
-    //  phone permission for getting device id...
+        //  phone permission for getting device id...
 
         permissions.add(READ_PHONE_STATE);
      /*   permissionsToRequest = findUnAskedPermissions(permissions);
@@ -141,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         deviceId = telephonyManager.getDeviceId();
 
 
-
         //firebase google sign in
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -157,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 spinner.getIndeterminateDrawable().setColorFilter(0xFFFFFFFF, android.graphics.PorterDuff.Mode.MULTIPLY);
 
                 if (is_Internet()) {
-                    Log.i("MyTesting","is_Internet true");
+                    Log.i("MyTesting", "is_Internet true");
 
                     signIn();
                 } else {
@@ -181,42 +177,42 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (is_Internet()) {
-            Log.i("MyTesting","is_Internet true 2");
+            Log.i("MyTesting", "is_Internet true 2");
 
 
             //   if (Check_user_And_DeviceID()) {
 
 
-                if (currentTime > newTime) {
-                    Log.i("MyTesting","Start if 1");
+            if (currentTime > newTime) {
+                Log.i("MyTesting", "Start if 1");
 
-                    //  Log.i("XXXXX", "IN if true");
-                    FirebaseAuth.getInstance().signOut();
+                //  Log.i("XXXXX", "IN if true");
+                FirebaseAuth.getInstance().signOut();
+            } else {
+                Log.i("MyTesting", "Start if 2");
+
+                //  Log.i("XXXXX", "IN if false");
+                if (mAuth.getCurrentUser() != null) {
+                    usergmail = mAuth.getCurrentUser().getEmail();
+                    //    username = mAuth.getCurrentUser().getDisplayName();
+                    Intent in = new Intent(MainActivity.this, ProfileActivity.class);
+                    in.putExtra("usergmail", usergmail);
+                    in.putExtra("ubal", lastBalance);
+                    //   in.putExtra("fromMain", true);
+                    startActivity(in);
+                    finish();
                 } else {
-                    Log.i("MyTesting","Start if 2");
-
-                    //  Log.i("XXXXX", "IN if false");
-                    if (mAuth.getCurrentUser() != null) {
-                        usergmail = mAuth.getCurrentUser().getEmail();
-                        //    username = mAuth.getCurrentUser().getDisplayName();
-                        Intent in = new Intent(MainActivity.this, ProfileActivity.class);
-                        in.putExtra("usergmail", usergmail);
-                        in.putExtra("ubal", lastBalance);
-                        //   in.putExtra("fromMain", true);
-                        startActivity(in);
-                        finish();
-                    } else {
-                        Log.i("MyTesting","Start if 3");
-                    }
-
+                    Log.i("MyTesting", "Start if 3");
                 }
-         //   } else {
+
+            }
+            //   } else {
 
             //}
 
         } else {
             finish();
-            startActivity(new Intent(MainActivity.this,Try_again.class));
+            startActivity(new Intent(MainActivity.this, Try_again.class));
         }
 
 
@@ -225,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("MyTesting","onActivityResult 1");
+        Log.i("MyTesting", "onActivityResult 1");
 
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -241,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        Log.i("MyTesting","firebaseAuthWithGoogle 1");
+        Log.i("MyTesting", "firebaseAuthWithGoogle 1");
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
 
@@ -272,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void signIn() {
-        Log.i("MyTesting","signIn fun 1");
+        Log.i("MyTesting", "signIn fun 1");
 
         //getting the google signin intent
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -282,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void Sign_in_to_next_Activity() {
-        Log.i("MyTesting","Sign_in_to_next_Activity fun 1");
+        Log.i("MyTesting", "Sign_in_to_next_Activity fun 1");
 
         StringRequest addStringRequest = new StringRequest(Request.Method.POST, URLADD, new Response.Listener<String>() {
             @Override
@@ -323,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 spinner.setVisibility(View.GONE);
                 Log.i(TAG, "Response Error " + error);
-                Toast.makeText(MainActivity.this, "Network problem, please try after some time  " , Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Network problem, please try after some time  ", Toast.LENGTH_LONG).show();
 
             }
         }) {
@@ -483,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 spinner.setVisibility(View.GONE);
                 Log.i(TAG, "Response Error " + error);
-                Toast.makeText(MainActivity.this, "Network problem, please try after some time  " , Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Network problem, please try after some time  ", Toast.LENGTH_LONG).show();
 
             }
         }) {

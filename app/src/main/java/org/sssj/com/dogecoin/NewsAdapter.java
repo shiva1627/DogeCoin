@@ -35,6 +35,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
         holder.news_Sub.setText(news.get(position).getSubject());
         holder.news_Details.setText(news.get(position).getDetails());
+        holder.txtNewDate.setText(news.get(position).getDate());
 
     }
 
@@ -45,12 +46,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView news_Sub, news_Details;
+        TextView news_Sub, news_Details, txtNewDate;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             news_Sub = (TextView) itemView.findViewById(R.id.txtSubject);
             news_Details = (TextView) itemView.findViewById(R.id.txtDetails);
+            txtNewDate = (TextView) itemView.findViewById(R.id.txtNewDate);
+
         }
     }
 }

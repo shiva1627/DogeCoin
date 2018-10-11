@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
-import com.facebook.ads.InterstitialAd;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.startapp.android.publish.adsCommon.StartAppAd;
@@ -39,15 +39,14 @@ import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
-    String Claim_url = "http://sscoinmedia.tech/DogeWebService/dogeBalanceUpdate.php";
-    String Claim_timer_url = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer.php";
+    String Claim_url = "http://sscoinmedia.tech/DogeWebService/dogeBalanceUpdate1.php";
+    String Claim_timer_url = "http://sscoinmedia.tech/DogeWebService/dogeClaimTimer1.php";
 
     CountDownTimer countdt;
     TextView txtEmail, txtubal, txtClaimRate, txtlastclaim;
     FirebaseAuth mAuth;
     Button btnclaim;
 
-    private InterstitialAd interstitialAd;
     private AdView adView;
 
     RequestQueue requestQueue;
@@ -62,6 +61,12 @@ public class HomeFragment extends Fragment {
     private SharedPreferences prefs;
     private SharedPreferences.Editor prefseditor;
     int startappCount;
+
+    String deviceId = "not find";
+
+    TelephonyManager telephonyManager;
+
+    int flagResume = 0;
 
     @Nullable
     @Override
@@ -109,14 +114,13 @@ public class HomeFragment extends Fragment {
         adView.loadAd();
 
 
-        // Instantiate an InterstitialAd object
-        interstitialAd = new InterstitialAd(getActivity(), "239164800060456_239844109992525");
-
-        // load the ad
-        interstitialAd.loadAd();
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
+
+        telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.
+                TELEPHONY_SERVICE);
+        deviceId = telephonyManager.getDeviceId();
+
 
         // txtEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.txtemailid);
         //  txtEmail.setText(user.getEmail().toString());
@@ -152,18 +156,7 @@ public class HomeFragment extends Fragment {
                     editor.apply();
 
 
-                    if (!interstitialAd.show()) {
-                        startAppAd.showAd("ssD_ClaimInterstetial"); // show the ad
-                        startAppAd.loadAd(); // load the next ad
-                    } else {
-                        interstitialAd.loadAd();
-                    }
-
-                   /* prefseditor = prefs.edit();
-                    prefseditor.putInt("startappCount", 1);
-                    prefseditor.apply();*/
-                    // StartAppAd.disableAutoInterstitial();
-                    //  StartAppAd.showAd(getActivity());
+                    load_interstitial();
 
                 } catch (JSONException e) {
                     prefseditor = prefs.edit();
@@ -203,6 +196,8 @@ public class HomeFragment extends Fragment {
                 Map<String, String> param = new HashMap<>();
                 param.put("email", mAuth.getCurrentUser().getEmail());
                 param.put("claimok", "ok");
+                Log.i("RESPONCEX", "deviceId1 claimok " + deviceId);
+                param.put("devid", deviceId);
                 return param;
             }
         };
@@ -210,25 +205,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void load_interstitial() {
-
-        startappCount = prefs.getInt("startappCount", 0);
-
-        if (startappCount == 1) {
-
-            if (!interstitialAd.show()) {
-
-                startAppAd.showAd("ssD_ResumeInterstetial"); // show the ad
-                startAppAd.loadAd();
-
-            } else {
-                interstitialAd.loadAd();
-
-            }
-        }
-        prefseditor = prefs.edit();
-        prefseditor.putInt("startappCount", 0);
-        prefseditor.apply();
-
+        startAppAd.showAd("ssD_ResumeInterstetial"); // show the ad
+        startAppAd.loadAd();
     }
 
 
@@ -256,7 +234,9 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         //
 
-        load_interstitial();
+        Log.i("XXXZZZ", "onResume" + flagResume);
+
+        //   load_interstitial();
         // Request an ad
         adView.loadAd();
         super.onResume();
@@ -326,6 +306,10 @@ public class HomeFragment extends Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> param = new HashMap<>();
                 param.put("email", mAuth.getCurrentUser().getEmail());
+
+                Log.i("RESPONCEX", "deviceId " + deviceId);
+                param.put("devid", deviceId);
+
                 Log.i("Claim_Timer", "Response 2" + mAuth.getCurrentUser().getEmail());
 
                 return param;
@@ -340,17 +324,15 @@ public class HomeFragment extends Fragment {
             adView.destroy();
         }
 
-        if (interstitialAd != null) {
+      /*  if (interstitialAd != null) {
             interstitialAd.destroy();
-        }
+        }*/
         super.onDestroy();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        interstitialAd.loadAd();
+        //  interstitialAd.loadAd();
     }
-
-
 }

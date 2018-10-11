@@ -115,8 +115,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             startActivity(in);
 
         } else if (id == R.id.nav_donate) {
-            Intent in = new Intent(ProfileActivity.this, Donate_Us.class);
-            startActivity(in);
+
             Toast.makeText(this, "We will add this feature soon...", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_help) {
